@@ -55,6 +55,10 @@ class BuildingContainer implements ContainerInterface
 		if(empty($this->definitions))
 		{
 			$this->definitions = $this->builder->getDefinitions();
+			if(!is_array($this->definitions))
+			{
+				throw new ContainerException('Builder returned invalid data');
+			}
 		}
 		$serviceList = array();
 		foreach($this->definitions as $name => &$definition)
