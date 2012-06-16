@@ -14,6 +14,7 @@ use Opl\Dependency\Builder\BuilderInterface;
 use Opl\Dependency\ContainerInterface;
 use Opl\Dependency\ServiceLocator;
 use Opl\Dependency\Exception\ContainerException;
+use Opl\Collector\Collector;
 
 /**
  * The building container uses the provided definitions to create a service
