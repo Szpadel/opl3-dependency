@@ -10,6 +10,7 @@
  * and other contributors. See website for details.
  */
 namespace Opl\Dependency\Builder;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Loads the service definitions from a YAML file.
@@ -30,6 +31,6 @@ class YamlFileBuilder extends FileBuilder
 			throw new BadMethodCallException('Cannot load a YAML file: no file specified');
 		}
 
-		return Yaml::load($this->findFile($this->currentFile));
+		return Yaml::parse($this->findFile($this->currentFile));
 	} // end getDefinitions();
 } // end YamlFileBuilder;
