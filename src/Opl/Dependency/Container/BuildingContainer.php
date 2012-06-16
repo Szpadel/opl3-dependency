@@ -149,7 +149,8 @@ class BuildingContainer implements ContainerInterface
 		{
 			if(($pos = strpos($argument, 'service:')) === 0)
 			{
-				return $locator->get(substr($argument, $pos, strlen($argument) - $pos));
+				// strlen('service:') == 8
+				return $locator->get(substr($argument, $pos+8, strlen($argument) - $pos));
 			}
 			elseif(preg_match('/^\%([a-zA-Z0-9\_\.]+)\%$/', $argument, $found))
 			{
