@@ -151,7 +151,7 @@ class BuildingContainer implements ContainerInterface
 			{
 				return $locator->get(substr($argument, $pos, strlen($argument) - $pos));
 			}
-			elseif(preg_match('^\%([a-zA-Z0-9\_\.]+)\%$', $argument, $found))
+			elseif(preg_match('/^\%([a-zA-Z0-9\_\.]+)\%$/', $argument, $found))
 			{
 				return $config->get($found[1]);
 			}
