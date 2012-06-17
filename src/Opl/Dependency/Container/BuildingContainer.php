@@ -60,6 +60,21 @@ class BuildingContainer implements ContainerInterface
 			{
 				throw new ContainerException('Builder returned invalid data');
 			}
+			foreach($this->definitions as $serviceName => &$service)
+			{
+				if(!isset($service['constructor']) || !is_array($service['constructor']))
+				{
+					$service['constructor'] = array();
+				}
+				if(!isset($service['className']))
+				{
+					throw new ContainerException($serviceName . ' has not className');
+				}
+				if(!isset($service['initializers']) || !is_array($service['initializers']))
+				{
+					$service['initializers'] = array();
+				}
+			}
 		}
 		$serviceList = array();
 		foreach($this->definitions as $name => &$definition)
@@ -152,11 +167,24 @@ class BuildingContainer implements ContainerInterface
 				// strlen('service:') == 8
 				return $locator->get(substr($argument, $pos+8, strlen($argument) - $pos));
 			}
-			elseif(preg_match('/^\%([a-zA-Z0-9\_\.]+)\%$/', $argument, $found))
-			{
-				return $config->get($found[1]);
-			}
+			return $this->parseVariable($config, $argument);
 		}
 		return $argument;
 	} // end extractArgument();
+	
+	/**
+	 * Parse all configuration options
+	 * @param Collector $config
+	 * @param string $argument
+	 * @return string 
+	 */
+	protected function parseVariable(Collector $config, $argument)
+	{
+		preg_match_all('/\%([a-zA-Z0-9\_\.]+)\%/', $argument, $found);
+		foreach($found[1] as $v)
+		{
+			$argument = str_replace("%$v%", $config->get($v), $argument);
+		}
+		return $argument;
+	}
 } // end BuildingContainer;
