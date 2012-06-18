@@ -139,7 +139,7 @@ class BuildingContainer implements ContainerInterface
 	{
 		if(!method_exists($object, $initializer))
 		{
-			throw new ContainerException('The initializer \''.get_class($className).'::'.$initializer.'\' does not exist.');
+			throw new ContainerException('The initializer \''.get_class($object).'::'.$initializer.'\' does not exist.');
 		}
 		$args = array();
 		foreach($methodArgs as $arg)
