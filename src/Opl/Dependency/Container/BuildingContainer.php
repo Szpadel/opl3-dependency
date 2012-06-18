@@ -146,7 +146,7 @@ class BuildingContainer implements ContainerInterface
 		{
 			$args[] = $this->extractArgument($locator, $config, $arg);			
 		}
-		call_user_func_args(array($object, $initializer), $args);
+		call_user_func_array(array($object, $initializer), $args);
 	} // end callInitializer();
 	
 	/**
