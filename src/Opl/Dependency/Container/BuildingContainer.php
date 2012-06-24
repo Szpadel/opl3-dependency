@@ -165,9 +165,11 @@ class BuildingContainer implements ContainerInterface
 			if(($pos = strpos($argument, 'service:')) === 0)
 			{
 				// strlen('service:') == 8
-				return $locator->get(substr($argument, $pos+8, strlen($argument) - $pos));
+				return $this->getService(substr($argument, $pos+8, strlen($argument) - $pos), $locator);
+			}else
+			{
+				return $this->parseVariable($config, $argument);
 			}
-			return $this->parseVariable($config, $argument);
 		}
 		return $argument;
 	} // end extractArgument();
@@ -180,6 +182,11 @@ class BuildingContainer implements ContainerInterface
 	 */
 	protected function parseVariable(Collector $config, $argument)
 	{
+		$found = array();
+		if(preg_match('/^\%([a-zA-Z0-9\_\.]+)\%$/', $argument, $found))
+		{
+			return $config->get($found[1]);
+		}
 		preg_match_all('/\%([a-zA-Z0-9\_\.]+)\%/', $argument, $found);
 		foreach($found[1] as $v)
 		{
