@@ -165,7 +165,7 @@ class BuildingContainer implements ContainerInterface
 			if(($pos = strpos($argument, 'service:')) === 0)
 			{
 				// strlen('service:') == 8
-				return $this->getService(substr($argument, $pos+8, strlen($argument) - $pos), $locator);
+				return $locator->get(substr($argument, $pos+8, strlen($argument) - $pos));
 			}else
 			{
 				return $this->parseVariable($config, $argument);
